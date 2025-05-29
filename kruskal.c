@@ -3,7 +3,7 @@
 int u[MAX], v[MAX], w[MAX];
 int parent[MAX];
 int find(int i) {
-    while (parent[i] != i)
+    while (i != parent[i])
         i = parent[i];
     return i;
 }
@@ -12,18 +12,18 @@ void union_set(int i, int j) {
     int b = find(j);
     parent[a] = b;
 }
-void swap(int* a, int* b) {
+void swap(int *a, int *b) {
     int temp = *a;
     *a = *b;
     *b = temp;
 }
-void sort_edges(int n) {
-    for (int i = 0; i < n-1; i++) {
-        for (int j = 0; j < n-i-1; j++) {
-            if (w[j] > w[j+1]) {
-                swap(&w[j], &w[j+1]);
-                swap(&u[j], &u[j+1]);
-                swap(&v[j], &v[j+1]);
+void sort_edges(int e) {
+    for (int i = 0; i < e - 1; i++) {
+        for (int j = i + 1; j < e; j++) {
+            if (w[i] > w[j]) {
+                swap(&w[i], &w[j]);
+                swap(&u[i], &u[j]);
+                swap(&v[i], &v[j]);
             }
         }
     }
@@ -35,12 +35,13 @@ int main() {
     scanf("%d", &n);
     printf("Enter number of edges: ");
     scanf("%d", &e);
-    printf("Enter edges (u v w):\n");
+    printf("Enter each edge as: u v w\n");
     for (int i = 0; i < e; i++) {
-        scanf("%d%d%d", &u[i], &v[i], &w[i]);
+        scanf("%d %d %d", &u[i], &v[i], &w[i]);
     }
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < n; i++) {
         parent[i] = i;
+    }
     sort_edges(e);
     printf("Edges in the Minimum Spanning Tree:\n");
     for (int i = 0; i < e; i++) {
